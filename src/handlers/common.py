@@ -1,6 +1,7 @@
 import sys
 sys.path.append("../") # src/
 
+from access import access_checker
 from exceptions import exceptions_catcher
 from states import makeNextStateCallback
 from utils.common import respondEvent, getUserName, makeGreetingMessage
@@ -19,6 +20,7 @@ router = Router(name=__name__)
 @router.callback_query(F.data.endswith("start/"))
 @router.message(F.text & (~F.text.startswith("/")), StateFilter(None))
 @exceptions_catcher()
+@access_checker()
 async def start(event: Message | CallbackQuery, state: FSMContext) -> None:
     await state.clear()
 
