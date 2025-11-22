@@ -4,6 +4,9 @@ from aiogram.types.user import User
 from datetime import datetime
 from zoneinfo import ZoneInfo
 from decimal import Decimal
+import qrcode
+import uuid
+import os
 
 
 async def respondEvent(event: Message | CallbackQuery, **kwargs) -> int:
@@ -78,3 +81,26 @@ def getCallParams(call: CallbackQuery) -> dict:
         call_params[key] = value
 
     return call_params
+
+
+def generateQRCode(qr_data: str, qr_img_name: str = None) -> str:
+    dir_path = "media/temporary/qr"
+    if not os.path.exists(dir_path):
+        os.makedirs(dir_path)
+
+    qr_img = qrcode.make(qr_data)
+    if not qr_img_name:
+        qr_img_name = str(uuid.uuid4())
+    qr_img_path = f'{dir_path}/{qr_img_name}.png'
+    qr_img.save(qr_img_path)
+
+    return qr_img_path
+
+
+def removeFile(file_path: str) -> bool:
+    "Deletes a local file from the machine."
+
+    if os.path.exists(file_path):
+        os.remove(file_path)
+        return True
+    return False
