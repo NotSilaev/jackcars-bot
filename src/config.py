@@ -5,6 +5,7 @@ from pydantic_settings import BaseSettings
 class Settings(BaseSettings):
     # Telegram Bot
     TELEGRAM_BOT_TOKEN: str
+    TELEGRAM_BOT_USERNAME: str
 
     # Database
     DB_HOST: str
