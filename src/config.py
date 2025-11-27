@@ -14,6 +14,12 @@ class Settings(BaseSettings):
     DB_USER: str
     DB_PASSWORD: str
 
+    # Cache
+    CACHE_HOST: str
+    CACHE_PORT: int
+    CACHE_DB: int
+    CACHE_MAX_CONNECTIONS: int
+
     class Config:
         env_file = Path(__file__).parent / ".env"
 

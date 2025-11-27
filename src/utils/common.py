@@ -104,3 +104,33 @@ def removeFile(file_path: str) -> bool:
         os.remove(file_path)
         return True
     return False
+
+
+def getCallParams(call: CallbackQuery) -> dict:
+    "Retrieves the parameters passed to callback_data and outputs them as a dictionary."
+
+    try:
+        call_params_list: list = call.data.split("?")[1].split("&")
+    except IndexError:
+        return {}
+
+    call_params = {}
+    for param in call_params_list:
+        key, value = param.split("=")
+        call_params[key] = value
+
+    return call_params
+
+
+def datetimeToString(dt: datetime) -> str:
+    return datetime.strftime(dt, "%Y-%m-%d %H:%M:%S.%f")
+
+
+def isDateInRange(date: datetime, period: tuple[datetime, datetime]) -> bool:
+    "Checks whether the date is in the specified range."
+
+    date = datetime.fromisoformat(datetimeToString(date))
+    start_date = datetime.fromisoformat(datetimeToString(period[0]))
+    end_date = datetime.fromisoformat(datetimeToString(period[1]))
+    
+    return start_date <= date <= end_date

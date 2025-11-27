@@ -31,13 +31,12 @@ async def start(event: Message | CallbackQuery, state: FSMContext) -> None:
 
     telegram_user: User = event.from_user
     telegram_id: int = telegram_user.id
-    user_name: str = getUserName(user=telegram_user)
-
     user: dict = getUser(telegram_id=telegram_id)
     user_id: int = user["id"]
     employee: dict | None = getEmployee(user_id=user_id)
 
     greeting: str = makeGreetingMessage()
+    user_name: str = getUserName(user=telegram_user)
 
     message_text = (
         f"*{greeting}*, {user_name}" + "\n\n"
@@ -45,13 +44,17 @@ async def start(event: Message | CallbackQuery, state: FSMContext) -> None:
     )
 
     keyboard = InlineKeyboardBuilder()
-
+    # Common buttons
+    keyboard.button(text="📞 Обратная связь", callback_data=makeNextStateCallback(event, "feedback", is_start=True))
+    
+    # Employees buttons
     if employee:
         if hasEmployeeAccess(employee, required_permissions=["add_user"]):
             keyboard.button(
                 text="➕ Добавить пользователя", 
                 callback_data=makeNextStateCallback(event, "add_user", is_start=True)
             )
+    keyboard.adjust(1)
 
     await respondEvent(
         event,

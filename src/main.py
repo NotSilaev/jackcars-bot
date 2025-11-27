@@ -1,7 +1,7 @@
 from config import settings
 
-from handlers import common, users
-from handlers.forms import add_user_form
+from handlers import common, users, feedback
+from handlers.forms import add_user_form, add_feedback_request_form
 
 from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage
@@ -16,9 +16,11 @@ async def main() -> None:
     # Handlers routers
     dp.include_router(common.router)
     dp.include_router(users.router)
+    dp.include_router(feedback.router)
 
     # Forms routers
     dp.include_router(add_user_form.router)
+    dp.include_router(add_feedback_request_form.router)
 
     await dp.start_polling(bot)
 

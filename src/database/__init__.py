@@ -4,6 +4,7 @@ sys.path.append("../") # src/
 from config import settings
 
 import psycopg2
+from typing import Any
 
 
 def getDatabaseConnection() -> psycopg2.extensions.connection:
@@ -16,10 +17,20 @@ def getDatabaseConnection() -> psycopg2.extensions.connection:
     )
 
 
-def execute(stmt: str, params: tuple) -> None:
+def execute(stmt: str, params: tuple, returning: bool = False) -> None | Any:
+    """
+    Executes an SQL statement query.
+    
+    :param stmt: SQL statement query.
+    :param returning: set to `True` if the sql query contains the `RETURNING` statement.
+    """
+
     with getDatabaseConnection() as connection:
         with connection.cursor() as cursor:
             cursor.execute(stmt, params)
+            if returning:
+                new_row: tuple = cursor.fetchone()
+                return new_row
 
 
 def fetch(query: str, params: tuple = None, fetch_type: str = "one", as_dict: bool = False) -> list:

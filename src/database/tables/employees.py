@@ -44,3 +44,26 @@ def getEmployee(employee_id: int = None, user_id: int = None) -> dict | None:
         employee = None
 
     return employee
+
+
+def getCarServiceEmployees(car_service_id: int, role_id: int = None) -> list:
+    if not role_id:
+        query = "SELECT employee_id FROM car_services_employees WHERE car_service_id = %s"
+        params = (car_service_id, )
+    else:
+        query = """
+            SELECT cse.employee_id, e.user_id, u.telegram_id, e.role_id, e.fullname
+            FROM car_services_employees cse
+            JOIN employees e
+                ON cse.employee_id = e.id
+            JOIN users u
+                ON u.id = e.user_id
+            WHERE 
+                car_service_id = %s
+                AND e.role_id = %s
+        """
+        params = (car_service_id, role_id, )
+
+    car_service_employees: list = fetch(query, params, fetch_type="all", as_dict=True)
+
+    return car_service_employees
