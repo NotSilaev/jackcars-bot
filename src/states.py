@@ -82,7 +82,7 @@ def updateStateCallbackParams(
         isinstance(event_or_state_callback, Message) 
         or isinstance(event_or_state_callback, CallbackQuery)
     ):
-        state_callback: str = getCurrentStateCallback(event)
+        state_callback: str = getCurrentStateCallback(event_or_state_callback, show_params=True)
         if not state_callback:
             return
     elif isinstance(event_or_state_callback, str):
@@ -97,7 +97,7 @@ def updateStateCallbackParams(
 
     state_params_chain = []
     if state_params and save_unchanged:
-        for i, params_item in state_params.split("&"):
+        for params_item in state_params.split("&"):
             param, value = params_item.split("=")
             if param not in new_state_params.keys():
                 state_params_chain.append(f"{param}={value}")
