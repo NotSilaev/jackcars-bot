@@ -1,6 +1,6 @@
 from config import settings
 
-from handlers import common, users, feedback
+from handlers import common, users, feedback, stats
 from handlers.forms import add_user_form, add_feedback_request_form
 
 from aiogram import Bot, Dispatcher
@@ -17,6 +17,7 @@ async def main() -> None:
     dp.include_router(common.router)
     dp.include_router(users.router)
     dp.include_router(feedback.router)
+    dp.include_router(stats.router)
 
     # Forms routers
     dp.include_router(add_user_form.router)

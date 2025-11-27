@@ -53,6 +53,11 @@ async def start(event: Message | CallbackQuery, state: FSMContext) -> None:
             keyboard.button(
                 text="➕ Добавить пользователя", 
                 callback_data=makeNextStateCallback(event, "add_user", is_start=True)
+            )        
+        if hasEmployeeAccess(employee, required_permissions=["get_stats"]):
+            keyboard.button(
+                text="📊 Статистика", 
+                callback_data=makeNextStateCallback(event, "stats", is_start=True)
             )
     keyboard.adjust(1)
 

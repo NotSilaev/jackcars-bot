@@ -103,8 +103,19 @@ def updateStateCallbackParams(
                 state_params_chain.append(f"{param}={value}")
 
     for param, value in new_state_params.items():
+        if save_unchanged and (value is None):
+            for i, added_param in enumerate(state_params_chain):
+                if added_param.split("=")[0] == param:
+                    del state_params_chain[i]
+            continue
         state_params_chain.append(f"{param}={value}")
 
     state_params = "&".join(state_params_chain)
     state_callback = state + "?" + state_params
     return state_callback
+
+
+def updateEventState(event: CallbackQuery, new_state: str) -> CallbackQuery:
+    "Changes the value of the callback data status to a new one."
+    event = event.model_copy(update={"data": new_state})
+    return event

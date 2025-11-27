@@ -1,7 +1,7 @@
 from aiogram.types import Message, CallbackQuery
 from aiogram.types.user import User
 
-from datetime import datetime
+from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 from decimal import Decimal
 import qrcode
@@ -134,3 +134,27 @@ def isDateInRange(date: datetime, period: tuple[datetime, datetime]) -> bool:
     end_date = datetime.fromisoformat(datetimeToString(period[1]))
     
     return start_date <= date <= end_date
+
+
+def makePeriodDatetimes(period_id: str) -> tuple[datetime, datetime]:
+    """
+    Generates a range of period dates in the form of start and end dates. 
+    The start date is the first calendar day of the period, and the end date is the current date.
+    """
+
+    current_date: datetime = getCurrentDateTime()
+
+    match period_id:
+        case 'day':
+            return (current_date, current_date)
+        case 'week': 
+            return (current_date - timedelta(days=current_date.weekday()), current_date)
+        case 'month':
+            return (current_date.replace(day=1), current_date)
+        case 'quarter':
+            quarter_month = ((current_date.month - 1) // 3) * 3 + 1
+            return (current_date.replace(month=quarter_month, day=1), current_date)
+        case 'year':
+            return (current_date.replace(month=1, day=1), current_date)
+        case _:
+            raise ValueError(f"Unsupported period: {period}")
