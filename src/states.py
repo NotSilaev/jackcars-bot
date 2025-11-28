@@ -119,3 +119,11 @@ def updateEventState(event: CallbackQuery, new_state: str) -> CallbackQuery:
     "Changes the value of the callback data status to a new one."
     event = event.model_copy(update={"data": new_state})
     return event
+
+
+def reduceStateData(state_callback: str) -> str:
+    "Abbreviates the state data in order to comply with the callback_data length restrictions in Telegram."
+    
+    state_callback_items = [i[0] for i in state_callback.split("_")]
+    reduced_state_callback = "_".join(state_callback_items)
+    return reduced_state_callback

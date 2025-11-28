@@ -70,9 +70,11 @@ def getUserName(user: User) -> str:
 def getCallParams(call: CallbackQuery) -> dict:
     "Parses the parameters from callback_data and returns them as a dictionary."
 
-    try:
-        call_params_list: list = call.data.split("?")[1].split("&")
-    except IndexError:
+    call_items = call.data.split("?")
+
+    if len(call_items) > 1:
+        call_params_list: list = call_items[-1].split("&")
+    else:
         return {}
 
     call_params = {}
@@ -104,22 +106,6 @@ def removeFile(file_path: str) -> bool:
         os.remove(file_path)
         return True
     return False
-
-
-def getCallParams(call: CallbackQuery) -> dict:
-    "Retrieves the parameters passed to callback_data and outputs them as a dictionary."
-
-    try:
-        call_params_list: list = call.data.split("?")[1].split("&")
-    except IndexError:
-        return {}
-
-    call_params = {}
-    for param in call_params_list:
-        key, value = param.split("=")
-        call_params[key] = value
-
-    return call_params
 
 
 def datetimeToString(dt: datetime) -> str:

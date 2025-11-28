@@ -62,9 +62,16 @@ def getFeedbackRequests(
     user_id: int = None, 
     car_service_id: int = None, 
     employee_id: int = None, 
-    contact_method_id: int = None
+    contact_method_id: int = None,
+    completed_at_is_null: bool = False
 ) -> list:
-    conditions_data: tuple = makeQueryConditions()
+    conditions_data: tuple = makeQueryConditions(
+        null_columns=(("completed_at", ) if completed_at_is_null else None),
+        user_id=user_id, 
+        car_service_id=car_service_id,
+        employee_id=employee_id,
+        contact_method_id=contact_method_id
+    )
     conditions_string, conditions_params = conditions_data
 
     query = f"""

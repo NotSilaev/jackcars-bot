@@ -1,4 +1,4 @@
-def shortenFullanme(fullname: str) -> str:
+def shortenFullname(fullname: str) -> str:
     "Abbreviates the full name to the full family name and the first letters of the first name and patronymic."
 
     parts = fullname.strip().split()

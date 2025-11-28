@@ -1,4 +1,9 @@
-def makeQueryConditions(operator: str = "WHERE", params_count: int = None, **kwargs) -> tuple[str, tuple]:
+def makeQueryConditions(
+    operator: str = "WHERE", 
+    params_count: int = None, 
+    null_columns: tuple = None,
+    **kwargs
+) -> tuple[str, tuple]:
     """
     Generates a string with sql query conditions and a tuple of parameters values.
     
@@ -7,6 +12,10 @@ def makeQueryConditions(operator: str = "WHERE", params_count: int = None, **kwa
     """
 
     conditions = []
+
+    if null_columns:
+        for column in null_columns:
+            conditions.append(f"{column} IS NULL")
 
     for key, value in kwargs.items():
         if not value:

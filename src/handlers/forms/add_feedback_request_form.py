@@ -9,7 +9,7 @@ from states import makeNextStateCallback, makePrevStateCallback, updateEventStat
 from utils.common import respondEvent, getCallParams, getCurrentDateTime, isDateInRange
 from utils.forms import makeFormStateMessage
 from utils.keyboard import makeItemsKeyboard
-from utils.views import shortenFullanme
+from utils.views import shortenFullname
 from cache import setCacheValue, getCacheValue, DAY_SECONDS
 
 from database.tables.car_services import getCarServices
@@ -140,9 +140,9 @@ async def feedback_request_employee_state(event: CallbackQuery, state: FSMContex
     keyboard: InlineKeyboardBuilder = makeItemsKeyboard(
         items_buttons=[
             {
-                "text": shortenFullanme(employee["fullname"]), 
+                "text": shortenFullname(employee["fullname"]), 
                 "callback_data": (
-                    f"employee?id={employee['employee_id']}&fullname={shortenFullanme(employee['fullname'])}"
+                    f"employee?id={employee['employee_id']}&fullname={shortenFullname(employee['fullname'])}"
                 )
             } 
             for employee in employees
