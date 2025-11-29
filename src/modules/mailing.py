@@ -35,6 +35,7 @@ def sendMailing(mailing: dict) -> None:
                     "photo": FSInputFile(image_path)
                 }
             )
+        removeFile(file_path=image_path)
     else:
         for user in users:
             telegram_id: int = user["telegram_id"]
@@ -47,5 +48,3 @@ def sendMailing(mailing: dict) -> None:
                     "parse_mode": "Markdown",
                 },
             )
-
-    removeFile(file_path=image_path)
