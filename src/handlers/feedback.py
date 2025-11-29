@@ -256,17 +256,19 @@ async def take_feedback_request(event: CallbackQuery, state: FSMContext, bot: Bo
     current_employee_id: int = feedback_request["employee_id"]
     taken_at: datetime = feedback_request["taken_at"]
     if current_employee_id:
+        message_text = None
         if current_employee_id != employee_id:
             employee: dict = getEmployee(employee_id=current_employee_id)
             employee_fullname: str = employee["fullname"]
             message_text = f"* ❌ Данный запрос на обратную связь уже принял в работу: {employee_fullname}*"
         elif taken_at and (current_employee_id == employee_id):
             message_text = f"* ❌ Вы уже приняли данный запрос в работу*"
-        return await respondEvent(
-            event, 
-            text=message_text, 
-            parse_mode="Markdown"
-        )
+        if message_text:
+            return await respondEvent(
+                event, 
+                text=message_text, 
+                parse_mode="Markdown"
+            )
 
     setFeedbackRequestTaken(
         feedback_request_id=feedback_request_id, 
