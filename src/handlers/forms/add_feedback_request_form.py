@@ -293,7 +293,7 @@ async def feedback_request_reason_process(event: Message | CallbackQuery, state:
 
 
 
-@router.callback_query(F.data == "commit_add_feedback_request_reason")
+@router.callback_query(F.data == "commit_add_feedback_request_form")
 @exceptions_catcher()
 @access_checker()
 async def commit_add_feedback_request_form(event: Message | CallbackQuery, state: FSMContext) -> None:
@@ -303,7 +303,7 @@ async def commit_add_feedback_request_form(event: Message | CallbackQuery, state
 
     keyboard = InlineKeyboardBuilder()
 
-    if isinstance(event, CallbackQuery) and event.data == "commit_add_feedback_request_reason":
+    if isinstance(event, CallbackQuery) and event.data == "commit_add_feedback_request_form":
         telegram_id: int = event.from_user.id
         user_id: int = getUser(telegram_id=telegram_id)["id"]
         feedback_request_data: dict = await state.get_data()
@@ -322,7 +322,7 @@ async def commit_add_feedback_request_form(event: Message | CallbackQuery, state
         keyboard.button(text="📞 Вернуться в меню", callback_data="feedback/")
     else:
         message_heading = "*📲 Запрос обратной связи*"
-        keyboard.button(text="✉️ Отправить запрос", callback_data="commit_add_feedback_request_reason")
+        keyboard.button(text="✉️ Отправить запрос", callback_data="commit_add_feedback_request_form")
         keyboard.button(text="⬅️ Назад", callback_data="feedback_request_reason_state")
         keyboard.button(text="❌ Отмена", callback_data="feedback/")
         keyboard.adjust(1, 2)

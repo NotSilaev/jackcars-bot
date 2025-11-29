@@ -5,14 +5,14 @@ from database import fetch
 
 
 def getCarServices() -> list:
-    query = "SELECT id, slug, name FROM car_services"
+    query = "SELECT id, slug, name, yandex_maps_url FROM car_services"
     car_services: list = fetch(query, fetch_type="all", as_dict=True)
     return car_services
 
 
 def getCarService(car_service_id: int) -> dict | None:
     query = """
-        SELECT id, slug, name
+        SELECT id, slug, name, yandex_maps_url
         FROM car_services
         WHERE id = %s
     """

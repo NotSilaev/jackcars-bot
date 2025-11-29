@@ -46,6 +46,7 @@ async def start(event: Message | CallbackQuery, state: FSMContext) -> None:
     keyboard = InlineKeyboardBuilder()
     # Common buttons
     keyboard.button(text="📞 Обратная связь", callback_data=makeNextStateCallback(event, "feedback", is_start=True))
+    keyboard.button(text="✏️ Оставить отзыв", callback_data=makeNextStateCallback(event, "add_review", is_start=True))
     
     # Employees buttons
     if employee:
