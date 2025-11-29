@@ -31,12 +31,16 @@ def alertFeedbackRequested(feedback_request_id: int) -> None:
         alert_recepients = [telegram_id]
     else:
         manager_role_id: int = getRole(role_slug="manager")["id"]
-        employees: str | None = getCacheValue(key="employees?role_slug=manager")
+        employees: str | None = getCacheValue(key=f"employees?role_slug=manager&car_service_id={car_service_id}")
         if employees:
             employees: list = json.loads(employees)
         else:
             employees: list = getCarServiceEmployees(car_service_id=car_service_id, role_id=manager_role_id)
-            setCacheValue(key="employees?role_slug=manager", value=json.dumps(employees), expire=DAY_SECONDS)
+            setCacheValue(
+                key=f"employees?role_slug=manager&car_service_id={car_service_id}", 
+                value=json.dumps(employees), 
+                expire=DAY_SECONDS
+            )
         alert_recepients = [employee["telegram_id"] for employee in employees]
 
     if not alert_recepients:

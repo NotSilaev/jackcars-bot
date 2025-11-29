@@ -31,12 +31,16 @@ def alertReviewAdded(review_id: int) -> None:
 
     alert_recepients = []
     for role_slug, role_id in management_roles.items():
-        management: str | None = getCacheValue(key=f"employees?role_slug={role_slug}")
+        management: str | None = getCacheValue(key=f"employees?role_slug={role_slug}&car_service_id={car_service_id}")
         if management:
             management: list = json.loads(management)
         else:
             management: list = getCarServiceEmployees(car_service_id=car_service_id, role_id=role_id)
-            setCacheValue(key=f"employees?role_slug={role_slug}", value=json.dumps(management), expire=DAY_SECONDS)
+            setCacheValue(
+                key=f"employees?role_slug={role_slug}&car_service_id={car_service_id}", 
+                value=json.dumps(management), 
+                expire=DAY_SECONDS
+            )
         alert_recepients.extend([employee["telegram_id"] for employee in management])
 
     if not alert_recepients:
