@@ -44,3 +44,9 @@ def getUser(user_id: int = None, telegram_id: int = None) -> dict | None:
         user = None
 
     return user
+
+
+def getUsers() -> list:
+    query = "SELECT id, telegram_id, phone, created_at FROM users"
+    users: list = fetch(query, fetch_type="all", as_dict=True)
+    return users

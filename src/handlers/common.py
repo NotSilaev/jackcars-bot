@@ -54,6 +54,11 @@ async def start(event: Message | CallbackQuery, state: FSMContext) -> None:
             keyboard.button(
                 text="➕ Добавить пользователя", 
                 callback_data=makeNextStateCallback(event, "add_user", is_start=True)
+            )                
+        if hasEmployeeAccess(employee, required_permissions=["add_mailing"]):
+            keyboard.button(
+                text="✉️ Запустить рассылку", 
+                callback_data=makeNextStateCallback(event, "add_mailing", is_start=True)
             )        
         if hasEmployeeAccess(employee, required_permissions=["process_feedback_request"]):
             keyboard.button(
