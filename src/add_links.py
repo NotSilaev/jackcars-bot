@@ -49,7 +49,9 @@ def add_link_checker():
 
 def _extractAddLinkID(event: Message) -> str | None:
     try:
-        return event.text.split()[1]
+        text_parts: list = event.text.split()
+        if text_parts[0] == "/start":
+            return text_parts[1]
     except (IndexError, AttributeError):
         return None
 
