@@ -115,11 +115,7 @@ def datetimeToString(dt: datetime) -> str:
 def isDateInRange(date: datetime, period: tuple[datetime, datetime]) -> bool:
     "Checks whether the date is in the specified range."
 
-    date = datetime.fromisoformat(datetimeToString(date))
-    start_date = datetime.fromisoformat(datetimeToString(period[0]))
-    end_date = datetime.fromisoformat(datetimeToString(period[1]))
-    
-    return start_date <= date <= end_date
+    return period[0].date() <= date.date() <= period[1].date()
 
 
 def makePeriodDatetimes(period_id: str) -> tuple[datetime, datetime]:
