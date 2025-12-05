@@ -192,7 +192,7 @@ class FeedbackRequestsStats(StatsBlock):
 
             if (
                 completed_at is None
-                or (self.period and isDateInRange(completed_at, self.period))
+                or (self.period and isDateInRange(completed_at, self.period) is False)
             ):
                 continue
 
