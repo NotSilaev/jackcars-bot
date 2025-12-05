@@ -210,7 +210,7 @@ async def feedback_request_card(event: CallbackQuery, state: FSMContext, bot: Bo
 
     user_id: int = getUser(telegram_id=telegram_id)["id"]
     employee: dict | None = getEmployee(user_id=user_id)
-    if employee:
+    if employee and hasEmployeeAccess(employee, required_permissions=["process_feedback_request"]):
         if (feedback_request["employee_id"] is None) or (feedback_request["employee_id"] == employee["id"]):
             if not feedback_request["taken_at"]:
                 keyboard.button(
